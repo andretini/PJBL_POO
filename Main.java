@@ -23,7 +23,7 @@ public class Main {
         //EXEMPLO SELEÇÃO
         try {
             ResultSet res = DatabasePOO.querrySelect("SELECT * FROM USUARIO " +
-                                                         "where Id_Usuario = 1");
+                                                         "where Id_Usuario = 'Joao'");
             while(res.next()){
                 System.out.println(res.getString("Nome"));
             }
