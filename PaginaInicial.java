@@ -1,5 +1,7 @@
+import BancoDados.DatabasePOO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -14,6 +16,7 @@ public class PaginaInicial extends JFrame implements ActionListener {
     JFrame frame;
     JButton cadastrar_button;
     JButton entrar_button;
+    JButton cadastro_button_02;
     JButton cadastro_button_02;
     JTextField name_field;
     JTextField password_field;
@@ -78,6 +81,7 @@ public class PaginaInicial extends JFrame implements ActionListener {
         frame.getContentPane().setBackground(Color.LIGHT_GRAY);
         frame.setVisible(true);
 
+
     }
 
     public void criarConta(){
@@ -125,8 +129,36 @@ public class PaginaInicial extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == cadastrar_button) {
             criarConta();
+        System.out.println("TESTE");
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == cadastrar_button) {
+            criarConta();
         }
         else if(e.getSource() == entrar_button){
+            //EXEMPLO SELEÇÃO
+            try {
+                ResultSet res = DatabasePOO.querrySelect(String.format("SELECT * FROM USUARIO " +
+                        "where nome = '%s'", name_field.getText()));
+                System.out.println(res);
+                while(res.next()){
+                    System.out.println(res);
+                }
+
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        }
+        else if(e.getSource() == cadastro_button_02){
+            System.out.println("TESTE");
+            try {
+                DatabasePOO.querry(String.format("INSERT INTO usuario(Nome, Senha) VALUES('%s', '%s')", name_field.getText(), password_field.getText()));
+                System.out.println("Inserção realizada com Sucesso");
+            }catch (Exception ex ){
+                System.out.println("ERRO INSERIR");
+            }
             //EXEMPLO SELEÇÃO
             try {
                 ResultSet res = DatabasePOO.querrySelect(String.format("SELECT * FROM USUARIO " +
