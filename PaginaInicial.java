@@ -1,22 +1,19 @@
 import BancoDados.DatabasePOO;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.Color;
-import java.awt.Font;
 
 public class PaginaInicial extends JFrame implements ActionListener {
     JFrame frame;
     JButton cadastrar_button;
     JButton entrar_button;
-    JButton cadastro_button_02;
     JButton cadastro_button_02;
     JTextField name_field;
     JTextField password_field;
@@ -122,13 +119,6 @@ public class PaginaInicial extends JFrame implements ActionListener {
         frame.revalidate(); 
         frame.repaint();
 
-        System.out.println("TESTE");
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == cadastrar_button) {
-            criarConta();
         System.out.println("TESTE");
     }
 
