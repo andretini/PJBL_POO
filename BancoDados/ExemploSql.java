@@ -1,8 +1,10 @@
+package BancoDados;
+
 import BancoDados.DatabasePOO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Main {
+public class ExemploSql {
     public static void main(String[] args) {
 
 

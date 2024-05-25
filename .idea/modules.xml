@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/PJBL_POO.iml" filepath="$PROJECT_DIR$/PJBL_POO.iml" />
+      <module fileurl="file://$PROJECT_DIR$/zController/zController.iml" filepath="$PROJECT_DIR$/zController/zController.iml" />
     </modules>
   </component>
 </project>
