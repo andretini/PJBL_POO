@@ -5,17 +5,12 @@ import zController.Sessao;
 import zController.aLoja;
 import zModel.CarrinhoModel;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.JButton;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.swing.JPanel;
 
 public class Produtos extends JFrame implements ActionListener {
     JFrame paginaProduto;
@@ -56,11 +51,89 @@ public class Produtos extends JFrame implements ActionListener {
         produtos_preco = new JLabel[10];
         indexes = new int[10];
 
-        JPanel[] painel_produtos = new JPanel[10];
+        // Botao para ir para a pagina do carrinho
+        carrinhoPagina = new JButton("Carrinho");
+        carrinhoPagina.setBounds(5, 10, 80, 20);
+        carrinhoPagina.addActionListener(this);
+
+        paginaProduto.add(pesquisa);
+        paginaProduto.add(pesquisar_button);
+        paginaProduto.add(carrinhoPagina);
+
+        // Botao para pagina de perfil
+        perfil = new JButton("Perfil");
+        perfil.setBounds(440, 10, 50, 20);
+        perfil.addActionListener(this);
+
+        paginaProduto.add(perfil);
+
+        paginaProduto.setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == pesquisar_button) {
+            String searchQuery = pesquisa.getText().trim();
+            if (!searchQuery.isEmpty()) {
+                performSearch(searchQuery);
+            } else {
+                JOptionPane.showMessageDialog(null, "Por favor, insira um termo de pesquisa.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            }
+        } else if (e.getSource() == perfil) {
+            UsuarioPerfil pagina_perfil = new UsuarioPerfil();
+            paginaProduto.dispose();
+        } else if (e.getSource() == carrinhoPagina) {
+            PaginaCarrinho carrinho = new PaginaCarrinho();
+            paginaProduto.dispose();
+        }
+        int c = 0;
+        for (JButton b : adicionar) {
+            if (e.getSource() == b) {
+                System.out.println(indexes[c]);
+                try {
+                    int IdCart = -1;
+                    for(CarrinhoModel ca: aLoja.carrinhos){
+                        if (ca.fk_Usuario_Id_Usuario == Sessao.getId()){
+                            IdCart = ca.Id_Carrinho;
+                        }
+                    }
+                    System.out.println(IdCart);
+                    System.out.println(indexes[c]);
+                    boolean update = false;
+                    ResultSet res = DatabasePOO.querrySelect(String.format("SELECT * FROM item_pedido where fk_Carrinho_Compras_Id_Carrinho = %d and fk_Produto_Id_Produto = %d", IdCart, indexes[c]));
+                    while(res.next()){
+                        if (res.getInt("fk_Produto_Id_Produto") == indexes[c]){
+                            update = true;
+                        }
+                    }
+
+                    if(update){
+                        DatabasePOO.querry(String.format("UPDATE item_pedido SET Quantidade = Quantidade+1 where fk_Carrinho_Compras_Id_Carrinho = %d and fk_Produto_Id_Produto = %d", IdCart, indexes[c]));
+                        System.out.println("Inserção realizada com Sucesso");
+                    }
+                    else{
+                        DatabasePOO.querry(String.format("INSERT INTO item_pedido(Quantidade, fk_Carrinho_Compras_Id_Carrinho, fk_Produto_Id_Produto) VALUES(1, '%d', '%d')", IdCart, indexes[c]));
+                        System.out.println("Inserção realizada com Sucesso");
+                    }
+
+                } catch (SQLException ex) {
+                    System.out.println(ex);
+                }
+            }
+            c++;
+        }
+    }
+
+    private void performSearch(String query) {
+        for (Component component : paginaProduto.getContentPane().getComponents()) {
+            if (component instanceof JPanel) {
+                paginaProduto.remove(component);
+            }
+        }
 
         ResultSet res = null;
         try {
-            res = DatabasePOO.querrySelect("SELECT * FROM produto where Nome like '%" + "Es" + "%'");
+            res = DatabasePOO.querrySelect("SELECT * FROM produto WHERE Nome LIKE '%" + query + "%'");
         } catch (SQLException e) {
             System.out.println(e);
         }
@@ -92,81 +165,31 @@ public class Produtos extends JFrame implements ActionListener {
 
                 indexes[i] = res.getInt("Id_Produto");
 
-                painel_produtos[i] = new JPanel();
-                painel_produtos[i].setBounds(50, 100 + 110 * i, 400, 100);
-                painel_produtos[i].setBackground(Color.GRAY);
-                painel_produtos[i].setLayout(null);
+                JPanel painel_produto = new JPanel();
+                painel_produto.setBounds(50, 100 + 110 * i, 400, 100);
+                painel_produto.setBackground(Color.GRAY);
+                painel_produto.setLayout(null);
 
-                painel_produtos[i].add(nome);
-                painel_produtos[i].add(descricao);
-                painel_produtos[i].add(preco);
-                painel_produtos[i].add(adicionar[i]);
-                painel_produtos[i].add(produtos_nome[i]);
-                painel_produtos[i].add(produtos_descricao[i]);
-                painel_produtos[i].add(produtos_preco[i]);
+                painel_produto.add(nome);
+                painel_produto.add(descricao);
+                painel_produto.add(preco);
+                painel_produto.add(adicionar[i]);
+                painel_produto.add(produtos_nome[i]);
+                painel_produto.add(produtos_descricao[i]);
+                painel_produto.add(produtos_preco[i]);
 
-                paginaProduto.add(painel_produtos[i]);
+                paginaProduto.add(painel_produto);
                 i++;
             }
         } catch (SQLException e) {
             System.out.println(e);
         }
 
-        // Botao para ir para a pagina do carrinho
-        carrinhoPagina = new JButton("Carrinho");
-        carrinhoPagina.setBounds(5, 10, 80, 20);
-        carrinhoPagina.addActionListener(this);
-
-        paginaProduto.add(pesquisa);
-        paginaProduto.add(pesquisar_button);
-        paginaProduto.add(carrinhoPagina);
-
-        // Botao para pagina de perfil
-        perfil = new JButton("Perfil");
-        perfil.setBounds(440, 10, 50, 20);
-        perfil.addActionListener(this);
-
-        paginaProduto.add(perfil);
-
-        paginaProduto.setVisible(true);
+        paginaProduto.revalidate();
+        paginaProduto.repaint();
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == pesquisar_button) {
-            // Painel para quando não tiver produtos no banco de dados
-            JOptionPane.showMessageDialog(null, "Produto não encontrado ou fora de estoque", "ERRO", JOptionPane.ERROR_MESSAGE);
-            // error_message.setVisible(true);
-
-        } else if (e.getSource() == perfil) {
-            UsuarioPerfil pagina_perfil = new UsuarioPerfil();
-            paginaProduto.dispose();
-        } else if (e.getSource() == carrinhoPagina) {
-            PaginaCarrinho carrinho = new PaginaCarrinho();
-            paginaProduto.dispose();
-        }
-        int c = 0;
-        for (JButton b : adicionar) {
-            if (e.getSource() == b) {
-                System.out.println(indexes[c]);
-                try {
-                    int IdCart = -1;
-                    for(CarrinhoModel ca: aLoja.carrinhos){
-                        if (ca.fk_Usuario_Id_Usuario == Sessao.getId()){
-                            IdCart = ca.Id_Carrinho;
-                        }
-                    }
-                    System.out.println(IdCart);
-                    System.out.println(indexes[c]);
-
-                    DatabasePOO.querry(String.format("INSERT INTO item_pedido(Quantidade, fk_Carrinho_Compras_Id_Carrinho, fk_Produto_Id_Produto) VALUES(1, '%d', '%d')", IdCart, indexes[c]));
-                    System.out.println("Inserção realizada com Sucesso");
-
-                } catch (SQLException ex) {
-                    System.out.println(ex);
-                }
-            }
-            c++;
-        }
+    public static void main(String[] args) {
+        new Produtos();
     }
 }

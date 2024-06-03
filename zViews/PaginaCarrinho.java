@@ -5,24 +5,21 @@ import zController.Sessao;
 import zController.aLoja;
 import zModel.CarrinhoModel;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.JOptionPane;
-import java.awt.Font;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class PaginaCarrinho extends JFrame implements ActionListener {
     JFrame carrinhoPage;
     JButton comprar;
     JPanel carrinhoPanel;
+    ArrayList<JPanel> carrinhosPanel = new ArrayList<>();
     JLabel carrinhoVazio;
+    int IdCart = -1;
 
     public PaginaCarrinho() {
         carrinhoPage = new JFrame();
@@ -39,7 +36,7 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
         carrinhoVazio.setFont(new Font("Arial", Font.PLAIN, 25));
         carrinhoVazio.setVisible(false);
 
-        int IdCart = -1;
+        IdCart = -1;
         for (CarrinhoModel ca : aLoja.carrinhos) {
             if (ca.fk_Usuario_Id_Usuario == Sessao.getId()) {
                 IdCart = ca.Id_Carrinho;
@@ -52,10 +49,13 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
             res = DatabasePOO.querrySelect("SELECT " +
                     "    IP.Id_Pedido, " +
                     "    IP.Quantidade, " +
+                    "    IP.fk_Carrinho_Compras_Id_Carrinho, " +
                     "    P.Nome AS Nome_Produto, " +
                     "    P.Valor AS Valor_Produto " +
-                    "FROM Item_Pedido IP " +
-                    "JOIN Produto P ON IP.fk_Produto_Id_Produto = P.Id_Produto ");
+                    "  FROM item_pedido IP " +
+                    " JOIN Produto P ON IP.fk_Produto_Id_Produto = P.Id_Produto"+
+                    " WHERE IP.fk_Carrinho_Compras_Id_Carrinho = "+ IdCart);
+
 
             if (!res.next()) {
                 carrinhoVazio.setVisible(true);
@@ -63,6 +63,7 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
                 res.beforeFirst();
                 int c = 0;
                 while (res.next()) {
+
                     carrinhoPanel = new JPanel();
                     carrinhoPanel.setLayout(null);
                     carrinhoPanel.setBounds(5, 50 + 100 * c, 474, 80);
@@ -88,7 +89,7 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
                     JLabel nomeProdutoCarrinho = new JLabel(res.getString("Nome_Produto"));
                     nomeProdutoCarrinho.setBounds(15, 30, 100, 20);
 
-                    JLabel descricaoProdutoCarrinho = new JLabel(String.valueOf(res.getInt("Id_Pedido")));
+                    JLabel descricaoProdutoCarrinho = new JLabel(String.valueOf("Id_Produto"));
                     descricaoProdutoCarrinho.setBounds(135, 30, 300, 20);
 
                     JLabel precoProdutoCarrinho = new JLabel("R$ " + res.getDouble("Valor_Produto"));
@@ -104,6 +105,7 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
                     removerProduto.addActionListener(this);
                     removerProduto.setBackground(Color.GRAY);
                     removerProduto.setBorder(null);
+                    removerProduto.putClientProperty("produtoId", res.getInt("Id_Pedido"));
 
                     itensCarrinho.add(nome);
                     itensCarrinho.add(descricao);
@@ -116,8 +118,9 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
                     itensCarrinho.add(removerProduto);
 
                     carrinhoPanel.add(itensCarrinho);
-
+                    carrinhosPanel.add(carrinhoPanel);
                     carrinhoPage.add(carrinhoPanel);
+
 
                     c ++;
                 }
@@ -129,6 +132,7 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
 
         comprar = new JButton("COMPRAR");
         comprar.setBounds(190, 400, 100, 40);
+        comprar.putClientProperty("carrinhoId", IdCart);
         comprar.addActionListener(this);
 
         carrinhoPage.add(comprar);
@@ -142,12 +146,28 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
         if (e.getSource() instanceof JButton) {
             JButton source = (JButton) e.getSource();
             if (source.getText().equals("COMPRAR")) {
+                try {
+                    System.out.println("Delete from item_pedido where fk_Carrinho_Compras_Id_Carrinho = " + source.getClientProperty("carrinhoId"));
+                    DatabasePOO.querry("Delete from item_pedido where fk_Carrinho_Compras_Id_Carrinho = " + source.getClientProperty("carrinhoId"));
+                    new PaginaCarrinho();
+                    carrinhoPage.dispose();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
                 // Implementar lógica de compra aqui
                 JOptionPane.showMessageDialog(null, "COMPRA REALIZADA COM SUCESSO", "COMPRA BEM SUCEDIDA", JOptionPane.PLAIN_MESSAGE);
             } else if (source.getText().equals("X")) {
                 // Implementar lógica de remoção de produto aqui
+                try {
+                    DatabasePOO.querry("Delete from item_pedido where Id_Pedido = " + source.getClientProperty("produtoId"));
+                    new PaginaCarrinho();
+                    carrinhoPage.dispose();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
                 JOptionPane.showMessageDialog(null, "Produto removido do carrinho", "Produto removido", JOptionPane.PLAIN_MESSAGE);
             }
+
         }
     }
 }
