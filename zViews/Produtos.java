@@ -1,9 +1,11 @@
 package zViews;
 
 import BancoDados.DatabasePOO;
+import zController.ItemPedidoController;
 import zController.Sessao;
 import zController.aLoja;
 import zModel.CarrinhoModel;
+import zModel.ItemPedido;
 
 import javax.swing.*;
 import java.awt.*;
@@ -97,26 +99,22 @@ public class Produtos extends JFrame implements ActionListener {
                             IdCart = ca.Id_Carrinho;
                         }
                     }
+
                     System.out.println(IdCart);
                     System.out.println(indexes[c]);
-                    boolean update = false;
-                    ResultSet res = DatabasePOO.querrySelect(String.format("SELECT * FROM item_pedido where fk_Carrinho_Compras_Id_Carrinho = %d and fk_Produto_Id_Produto = %d", IdCart, indexes[c]));
-                    while(res.next()){
-                        if (res.getInt("fk_Produto_Id_Produto") == indexes[c]){
-                            update = true;
+                    boolean create = true;
+                    for(ItemPedido pe: aLoja.pedidos){
+                        if (pe.fk_Produto_Id_Produto == indexes[c] && pe.fk_Carrinho_Compras_Id_Carrinho == IdCart) {
+                            ItemPedidoController.update(1, pe.IdPedido);
+
+                            create = false;
                         }
                     }
-
-                    if(update){
-                        DatabasePOO.querry(String.format("UPDATE item_pedido SET Quantidade = Quantidade+1 where fk_Carrinho_Compras_Id_Carrinho = %d and fk_Produto_Id_Produto = %d", IdCart, indexes[c]));
-                        System.out.println("Inserção realizada com Sucesso");
-                    }
-                    else{
-                        DatabasePOO.querry(String.format("INSERT INTO item_pedido(Quantidade, fk_Carrinho_Compras_Id_Carrinho, fk_Produto_Id_Produto) VALUES(1, '%d', '%d')", IdCart, indexes[c]));
-                        System.out.println("Inserção realizada com Sucesso");
+                    if(create){
+                        ItemPedidoController.create(-1, 1, IdCart, indexes[c]);
                     }
 
-                } catch (SQLException ex) {
+                } catch (Exception ex) {
                     System.out.println(ex);
                 }
             }
