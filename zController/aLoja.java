@@ -19,6 +19,22 @@ public class aLoja {
     public static ArrayList<Produto> produtos = new ArrayList<>();
 
 
+    public static ArrayList<UserModel> getUsers() {
+        return users;
+    }
+
+    public static void setUsers(ArrayList<UserModel> users) {
+        aLoja.users = users;
+    }
+
+    public static ArrayList<CarrinhoModel> getCarrinhos() {
+        return carrinhos;
+    }
+
+    public static void setCarrinhos(ArrayList<CarrinhoModel> carrinhos) {
+        aLoja.carrinhos = carrinhos;
+    }
+
     public static void main(String[] args){
 
         try {

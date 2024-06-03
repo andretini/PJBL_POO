@@ -1,6 +1,5 @@
 package zViews;
 
-import BancoDados.DatabasePOO;
 import zController.ItemPedidoController;
 import zController.Sessao;
 import zController.aLoja;
@@ -12,8 +11,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class Produtos extends JFrame implements ActionListener {
     JFrame paginaProduto;
@@ -96,8 +93,8 @@ public class Produtos extends JFrame implements ActionListener {
                 try {
                     int IdCart = -1;
                     for(CarrinhoModel ca: aLoja.carrinhos){
-                        if (ca.fk_Usuario_Id_Usuario == Sessao.getId()){
-                            IdCart = ca.Id_Carrinho;
+                        if (ca.getFkUsuarioIdUsuario() == Sessao.getId()){
+                            IdCart = ca.getIdCarrinho();
                         }
                     }
 

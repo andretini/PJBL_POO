@@ -42,11 +42,11 @@ public class UsuarioPerfil extends JFrame implements ActionListener{
         pagina_nome.setFont(new Font(null, Font.BOLD, 20));
 
         UserModel user = null;
-        for(UserModel u: aLoja.users){
+        for(UserModel u: aLoja.getUsers()){
             System.out.println(Sessao.getId());
-            System.out.println(u.Id);
+            System.out.println(u.getId());
 
-            if (u.Id == Sessao.getId()){
+            if (u.getId() == Sessao.getId()){
                 user = u;
             }
         }
@@ -58,7 +58,7 @@ public class UsuarioPerfil extends JFrame implements ActionListener{
         nome.setBounds(50, 100, 200, 50);
         nome.setFont(new Font(null, Font.BOLD, 20));
 
-        nome_usuario = new JLabel(user.nome);
+        nome_usuario = new JLabel(user.getNome());
         nome_usuario.setBounds(125, 100, 300, 50);
         nome_usuario.setFont(new Font(null, Font.BOLD, 20));
 
@@ -72,7 +72,7 @@ public class UsuarioPerfil extends JFrame implements ActionListener{
         sexo.setBounds(50, 200, 300, 50);
         sexo.setFont(new Font(null, Font.BOLD, 20));
 
-        sexo_usuario = new JLabel("Masculino");
+        sexo_usuario = new JLabel();
         sexo_usuario.setBounds(125, 200, 300, 50);
         sexo_usuario.setFont(new Font(null, Font.BOLD, 20));
 

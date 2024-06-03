@@ -1,9 +1,8 @@
 package zViews;
 
-import BancoDados.DatabasePOO;
 import zController.Sessao;
 import zController.UserController;
-
+import BancoDados.DatabasePOO;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,19 +12,21 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.*;
+import java.awt.*;
 
 public class EditaPerfil extends JFrame implements ActionListener {
-    JFrame paginaEdita;
-    JTextField nome_usuario;
-    JTextField email_usuario;
-    JTextField sexo_usuario;
-    JTextField senha_usuario;
-    JPanel painel;
-    JButton salvarInfo;
+    private JFrame paginaEdita;
+    private JTextField nome_usuario;
+    private JTextField email_usuario;
+    private JTextField sexo_usuario;
+    private JTextField senha_usuario;
+    private JPanel painel;
+    private JButton salvarInfo;
 
-    public EditaPerfil(){
+    public EditaPerfil() {
         paginaEdita = new JFrame();
-        paginaEdita.setSize(500,500);
+        paginaEdita.setSize(500, 500);
         paginaEdita.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         painel = new JPanel();
@@ -96,9 +97,9 @@ public class EditaPerfil extends JFrame implements ActionListener {
             try {
                 System.out.println(nome_usuario.getText());
                 System.out.println(senha_usuario.getText());
-                System.out.println(Sessao.id);
+                System.out.println(Sessao.getId());
 
-                UserController.update(nome_usuario.getText(), senha_usuario.getText(), Sessao.id);
+                UserController.update(nome_usuario.getText(), senha_usuario.getText(), Sessao.getId());
             } catch (Exception er) {
                 System.out.println(er);
             }

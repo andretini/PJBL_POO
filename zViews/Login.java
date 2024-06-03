@@ -90,6 +90,7 @@ public class Login extends JFrame implements ActionListener {
             try {
                 UserController.login(name_field.getText(), password_field.getText());
                 frame.dispose();
+                Produtos produto = new Produtos();
             } catch (Exception ex) {
                 System.out.println(ex);
             }

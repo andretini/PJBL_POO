@@ -1,19 +1,15 @@
 package zViews;
 
-import BancoDados.DatabasePOO;
 import zController.ItemPedidoController;
 import zController.Sessao;
 import zController.aLoja;
 import zModel.CarrinhoModel;
 import zModel.ItemPedido;
 import zModel.Produto;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -23,7 +19,15 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
     JPanel carrinhoPanel;
     ArrayList<JPanel> carrinhosPanel = new ArrayList<>();
     JLabel carrinhoVazio;
-    int IdCart = -1;
+    private int IdCart = -1; 
+
+    public int getIdCart() {
+        return IdCart;
+    }
+
+    public void setIdCart(int idCart) {
+        IdCart = idCart;
+    }
 
     public PaginaCarrinho() {
         carrinhoPage = new JFrame();
@@ -42,8 +46,8 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
 
         IdCart = -1;
         for (CarrinhoModel ca : aLoja.carrinhos) {
-            if (ca.fk_Usuario_Id_Usuario == Sessao.getId()) {
-                IdCart = ca.Id_Carrinho;
+            if (ca.getFkUsuarioIdUsuario() == Sessao.getId()) {
+                IdCart = ca.getIdCarrinho();
                 break;
             }
         }
@@ -122,7 +126,7 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
 
         comprar = new JButton("COMPRAR");
         comprar.setBounds(190, 400, 100, 40);
-        comprar.putClientProperty("carrinhoId", IdCart);
+        comprar.putClientProperty("carrinhoId", getIdCart()); // Usando o getter para obter o IdCart
         comprar.addActionListener(this);
 
         carrinhoPage.add(comprar);
@@ -175,7 +179,6 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
                 }
                 JOptionPane.showMessageDialog(null, "Produto removido do carrinho", "Produto removido", JOptionPane.PLAIN_MESSAGE);
             }
-
         }
     }
 }
