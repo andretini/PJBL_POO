@@ -6,6 +6,7 @@ import zController.Sessao;
 import zController.aLoja;
 import zModel.CarrinhoModel;
 import zModel.ItemPedido;
+import zModel.Produto;
 
 import javax.swing.*;
 import java.awt.*;
@@ -50,64 +51,72 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
 
         var c = 0;
         for (ItemPedido pe: aLoja.pedidos){
+            Produto produto = null;
+            for(Produto p: aLoja.produtos){
+                if(p.IdProduto == pe.fk_Produto_Id_Produto){
+                    produto = p;
+                }
+            }
+            if (produto != null){
+                carrinhoPanel = new JPanel();
+                carrinhoPanel.setLayout(null);
+                carrinhoPanel.setBounds(5, 50 + 100 * c, 474, 80);
+                carrinhoPanel.setBackground(Color.GRAY);
 
-            carrinhoPanel = new JPanel();
-            carrinhoPanel.setLayout(null);
-            carrinhoPanel.setBounds(5, 50 + 100 * c, 474, 80);
-            carrinhoPanel.setBackground(Color.GRAY);
+                JPanel itensCarrinho = new JPanel();
+                itensCarrinho.setLayout(null);
+                itensCarrinho.setBounds(0, 0, 474, 80);
+                itensCarrinho.setBackground(Color.GRAY);
 
-            JPanel itensCarrinho = new JPanel();
-            itensCarrinho.setLayout(null);
-            itensCarrinho.setBounds(0, 0, 474, 80);
-            itensCarrinho.setBackground(Color.GRAY);
+                JLabel nome = new JLabel("NOME");
+                nome.setBounds(15, 10, 100, 20);
 
-            JLabel nome = new JLabel("NOME");
-            nome.setBounds(15, 10, 100, 20);
+                JLabel descricao = new JLabel("DESCRIÇÃO");
+                descricao.setBounds(135, 10, 100, 20);
 
-            JLabel descricao = new JLabel("DESCRIÇÃO");
-            descricao.setBounds(135, 10, 100, 20);
+                JLabel preco = new JLabel("PREÇO");
+                preco.setBounds(310, 10, 100, 20);
 
-            JLabel preco = new JLabel("PREÇO");
-            preco.setBounds(310, 10, 100, 20);
+                JLabel quantidade = new JLabel("QTDE");
+                quantidade.setBounds(370, 10, 100, 20);
 
-            JLabel quantidade = new JLabel("QTDE");
-            quantidade.setBounds(370, 10, 100, 20);
+                JLabel nomeProdutoCarrinho = new JLabel(String.valueOf(produto.Nome));
+                nomeProdutoCarrinho.setBounds(15, 30, 100, 20);
 
-            JLabel nomeProdutoCarrinho = new JLabel(String.valueOf(pe.fk_Produto_Id_Produto));
-            nomeProdutoCarrinho.setBounds(15, 30, 100, 20);
+                JLabel descricaoProdutoCarrinho = new JLabel(String.valueOf(pe.fk_Produto_Id_Produto));
+                descricaoProdutoCarrinho.setBounds(135, 30, 300, 20);
 
-            JLabel descricaoProdutoCarrinho = new JLabel(String.valueOf(pe.fk_Produto_Id_Produto));
-            descricaoProdutoCarrinho.setBounds(135, 30, 300, 20);
+                JLabel precoProdutoCarrinho = new JLabel("R$ " + String.valueOf(produto.Valor));
+                precoProdutoCarrinho.setBounds(310, 30, 100, 20);
 
-            JLabel precoProdutoCarrinho = new JLabel("R$ " + String.valueOf(pe.fk_Produto_Id_Produto));
-            precoProdutoCarrinho.setBounds(310, 30, 100, 20);
+                JTextField quantidadeProduto = new JTextField(String.valueOf(pe.Quantidade));
+                quantidadeProduto.setBounds(375, 30, 20, 20);
+                quantidadeProduto.setBackground(Color.GRAY);
+                quantidadeProduto.setBorder(null);
 
-            JTextField quantidadeProduto = new JTextField(String.valueOf(pe.fk_Produto_Id_Produto));
-            quantidadeProduto.setBounds(375, 30, 20, 20);
-            quantidadeProduto.setBackground(Color.GRAY);
-            quantidadeProduto.setBorder(null);
+                JButton removerProduto = new JButton("X");
+                removerProduto.setBounds(420, 30, 50, 20);
+                removerProduto.addActionListener(this);
+                removerProduto.setBackground(Color.GRAY);
+                removerProduto.setBorder(null);
+                removerProduto.putClientProperty("produtoId", pe.IdPedido);
 
-            JButton removerProduto = new JButton("X");
-            removerProduto.setBounds(420, 30, 50, 20);
-            removerProduto.addActionListener(this);
-            removerProduto.setBackground(Color.GRAY);
-            removerProduto.setBorder(null);
-            removerProduto.putClientProperty("produtoId", pe.IdPedido);
+                itensCarrinho.add(nome);
+                itensCarrinho.add(descricao);
+                itensCarrinho.add(preco);
+                itensCarrinho.add(quantidade);
+                itensCarrinho.add(nomeProdutoCarrinho);
+                itensCarrinho.add(descricaoProdutoCarrinho);
+                itensCarrinho.add(precoProdutoCarrinho);
+                itensCarrinho.add(quantidadeProduto);
+                itensCarrinho.add(removerProduto);
 
-            itensCarrinho.add(nome);
-            itensCarrinho.add(descricao);
-            itensCarrinho.add(preco);
-            itensCarrinho.add(quantidade);
-            itensCarrinho.add(nomeProdutoCarrinho);
-            itensCarrinho.add(descricaoProdutoCarrinho);
-            itensCarrinho.add(precoProdutoCarrinho);
-            itensCarrinho.add(quantidadeProduto);
-            itensCarrinho.add(removerProduto);
+                carrinhoPanel.add(itensCarrinho);
+                carrinhosPanel.add(carrinhoPanel);
+                carrinhoPage.add(carrinhoPanel);
 
-            carrinhoPanel.add(itensCarrinho);
-            carrinhosPanel.add(carrinhoPanel);
-            carrinhoPage.add(carrinhoPanel);
 
+            }
             c ++;
         }
 
