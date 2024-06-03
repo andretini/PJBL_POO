@@ -1,41 +1,45 @@
+package zViews;
+
+import BancoDados.DatabasePOO;
+import zController.Sessao;
+import zController.aLoja;
+import zModel.CarrinhoModel;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.Color;
-import java.awt.Font;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JPanel;
 
-
-public class Produtos extends JFrame implements ActionListener{
+public class Produtos extends JFrame implements ActionListener {
     JFrame paginaProduto;
     JTextField pesquisa;
     JPanel painel_produto;
     JLabel error_message;
-    JLabel produtos_nome;
-    JLabel produtos_descricao;
-    JLabel produtos_preco;
     JButton pesquisar_button;
     JButton perfil;
-    JButton adicionaCarrinho;
     JButton carrinhoPagina;
 
-    public Produtos(){
+    private JButton[] adicionar;
+    private JLabel[] produtos_nome;
+    private JLabel[] produtos_descricao;
+    private JLabel[] produtos_preco;
+    private int[] indexes;
+
+    public Produtos() {
         paginaProduto = new JFrame();
-        paginaProduto.setSize(500,500);
+        paginaProduto.setSize(500, 500);
         paginaProduto.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         paginaProduto.setLayout(null);
-        
+
         pesquisa = new JTextField();
         pesquisa.setBounds(90, 25, 250, 40);
-
-        painel_produto = new JPanel();
-        painel_produto.setBounds(50, 100, 400, 100);
-        painel_produto.setBackground(Color.GRAY);
-        painel_produto.setLayout(null);
 
         pesquisar_button = new JButton("Pesquisar");
         pesquisar_button.setBounds(340, 25, 75, 40);
@@ -45,52 +49,79 @@ public class Produtos extends JFrame implements ActionListener{
         error_message.setVisible(false);
         error_message.setBounds(100, 200, 300, 20);
 
-        //placeholders do produto
-        JLabel nome = new JLabel("NOME");
-        nome.setBounds(20, 5, 50, 20);
+        // Initialize arrays
+        adicionar = new JButton[10];
+        produtos_nome = new JLabel[10];
+        produtos_descricao = new JLabel[10];
+        produtos_preco = new JLabel[10];
+        indexes = new int[10];
 
-        JLabel descricao = new JLabel("DESCRIÇÃO");
-        descricao.setBounds(110, 5, 100, 20);
+        JPanel[] painel_produtos = new JPanel[10];
 
-        JLabel preco = new JLabel("PREÇO");
-        preco.setBounds(230, 5, 100,20);
+        ResultSet res = null;
+        try {
+            res = DatabasePOO.querrySelect("SELECT * FROM produto where Nome like '%" + "Es" + "%'");
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
 
-        //atributos dos produtos
-        produtos_nome = new JLabel("Alface");
-        produtos_nome.setBounds(20, 30, 100, 20); 
+        try {
+            int i = 0;
+            while (res.next() && i < 10) {
+                adicionar[i] = new JButton("Add");
+                adicionar[i].setBounds(300, 30, 60, 20);
+                adicionar[i].addActionListener(this);
 
-        produtos_descricao = new JLabel("Umas folhas verdes ai");
-        produtos_descricao.setBounds(80, 30, 300, 20); 
+                JLabel nome = new JLabel("NOME");
+                nome.setBounds(20, 5, 50, 20);
 
-        produtos_preco = new JLabel("4.75");
-        produtos_preco.setBounds(240, 30, 100, 20); 
+                JLabel descricao = new JLabel("DESCRIÇÃO");
+                descricao.setBounds(110, 5, 100, 20);
 
-        //botao para adicionar ao carrinho
-        adicionaCarrinho = new JButton("Add");
-        adicionaCarrinho.setBounds(300, 30, 60, 20);
-        adicionaCarrinho.addActionListener(this);
+                JLabel preco = new JLabel("PREÇO");
+                preco.setBounds(230, 5, 100, 20);
 
-        //botao para ir para a pagina do carrinho
+                produtos_nome[i] = new JLabel(res.getString("Nome"));
+                produtos_nome[i].setBounds(20, 30, 100, 20);
+
+                produtos_descricao[i] = new JLabel("Umas folhas");
+                produtos_descricao[i].setBounds(110, 30, 300, 20);
+
+                produtos_preco[i] = new JLabel(String.valueOf(res.getFloat("Valor")));
+                produtos_preco[i].setBounds(230, 30, 100, 20);
+
+                indexes[i] = res.getInt("Id_Produto");
+
+                painel_produtos[i] = new JPanel();
+                painel_produtos[i].setBounds(50, 100 + 110 * i, 400, 100);
+                painel_produtos[i].setBackground(Color.GRAY);
+                painel_produtos[i].setLayout(null);
+
+                painel_produtos[i].add(nome);
+                painel_produtos[i].add(descricao);
+                painel_produtos[i].add(preco);
+                painel_produtos[i].add(adicionar[i]);
+                painel_produtos[i].add(produtos_nome[i]);
+                painel_produtos[i].add(produtos_descricao[i]);
+                painel_produtos[i].add(produtos_preco[i]);
+
+                paginaProduto.add(painel_produtos[i]);
+                i++;
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        // Botao para ir para a pagina do carrinho
         carrinhoPagina = new JButton("Carrinho");
         carrinhoPagina.setBounds(5, 10, 80, 20);
         carrinhoPagina.addActionListener(this);
 
-        painel_produto.add(nome);
-        painel_produto.add(descricao);
-        painel_produto.add(preco);
-        painel_produto.add(adicionaCarrinho);
-        painel_produto.add(produtos_nome);
-        painel_produto.add(produtos_descricao);
-        painel_produto.add(produtos_preco);
-        painel_produto.add(error_message);
-
         paginaProduto.add(pesquisa);
-        paginaProduto.add(painel_produto);
         paginaProduto.add(pesquisar_button);
         paginaProduto.add(carrinhoPagina);
 
-
-        //botao para pagina de perfil
+        // Botao para pagina de perfil
         perfil = new JButton("Perfil");
         perfil.setBounds(440, 10, 50, 20);
         perfil.addActionListener(this);
@@ -102,23 +133,40 @@ public class Produtos extends JFrame implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == pesquisar_button){
-            //Painel para quando não tiver produtos no banco de dados
+        if (e.getSource() == pesquisar_button) {
+            // Painel para quando não tiver produtos no banco de dados
             JOptionPane.showMessageDialog(null, "Produto não encontrado ou fora de estoque", "ERRO", JOptionPane.ERROR_MESSAGE);
-            //error_message.setVisible(true);
-            
-        }
-        else if(e.getSource() == perfil){
+            // error_message.setVisible(true);
+
+        } else if (e.getSource() == perfil) {
             UsuarioPerfil pagina_perfil = new UsuarioPerfil();
             paginaProduto.dispose();
-        }
-        else if(e.getSource() == adicionaCarrinho){
-            //código para mandar ao carrinho e para o banco de dados 
-        }
-        else if(e.getSource() == carrinhoPagina){
+        } else if (e.getSource() == carrinhoPagina) {
             PaginaCarrinho carrinho = new PaginaCarrinho();
             paginaProduto.dispose();
         }
-    }
+        int c = 0;
+        for (JButton b : adicionar) {
+            if (e.getSource() == b) {
+                System.out.println(indexes[c]);
+                try {
+                    int IdCart = -1;
+                    for(CarrinhoModel ca: aLoja.carrinhos){
+                        if (ca.fk_Usuario_Id_Usuario == Sessao.getId()){
+                            IdCart = ca.Id_Carrinho;
+                        }
+                    }
+                    System.out.println(IdCart);
+                    System.out.println(indexes[c]);
 
+                    DatabasePOO.querry(String.format("INSERT INTO item_pedido(Quantidade, fk_Carrinho_Compras_Id_Carrinho, fk_Produto_Id_Produto) VALUES(1, '%d', '%d')", IdCart, indexes[c]));
+                    System.out.println("Inserção realizada com Sucesso");
+
+                } catch (SQLException ex) {
+                    System.out.println(ex);
+                }
+            }
+            c++;
+        }
+    }
 }

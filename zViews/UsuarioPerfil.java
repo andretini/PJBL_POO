@@ -1,6 +1,16 @@
+package zViews;
+
+import BancoDados.DatabasePOO;
+import zController.Sessao;
+import zController.UserController;
+import zController.aLoja;
+import zModel.UserModel;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -31,22 +41,31 @@ public class UsuarioPerfil extends JFrame implements ActionListener{
         pagina_nome.setBounds(210, 25, 300, 20);
         pagina_nome.setFont(new Font(null, Font.BOLD, 20));
 
+        UserModel user = null;
+        for(UserModel u: aLoja.users){
+            System.out.println(Sessao.getId());
+            System.out.println(u.Id);
+
+            if (u.Id == Sessao.getId()){
+                user = u;
+            }
+        }
+
         JLabel nome = new JLabel("NOME:");
         JLabel email = new JLabel("EMAIL:");
         JLabel sexo = new JLabel("SEXO:");
-        JLabel senha = new JLabel("SENHA:");
 
         nome.setBounds(50, 100, 200, 50);
         nome.setFont(new Font(null, Font.BOLD, 20));
 
-        nome_usuario = new JLabel("Bryan Strey");
+        nome_usuario = new JLabel(user.nome);
         nome_usuario.setBounds(125, 100, 300, 50);
         nome_usuario.setFont(new Font(null, Font.BOLD, 20));
 
         email.setBounds(50, 150, 300, 50);
         email.setFont(new Font(null, Font.BOLD, 20));
 
-        email_usuario = new JLabel("bryanstrey@gmail.com");
+        email_usuario = new JLabel("email_Q");
         email_usuario.setBounds(125, 150, 300, 50);
         email_usuario.setFont(new Font(null, Font.BOLD, 20));
 
@@ -57,13 +76,6 @@ public class UsuarioPerfil extends JFrame implements ActionListener{
         sexo_usuario.setBounds(125, 200, 300, 50);
         sexo_usuario.setFont(new Font(null, Font.BOLD, 20));
 
-        senha.setBounds(50, 250, 300, 50);
-        senha.setFont(new Font(null, Font.BOLD, 20));
-        senha.setFont(new Font(null, Font.BOLD, 20));
-
-        senha_usuario = new JLabel("***************");
-        senha_usuario.setBounds(130, 250, 300, 50);
-        senha_usuario.setFont(new Font(null, Font.BOLD, 20));
 
         excluirPerfil = new JButton("Excluir");
         excluirPerfil.setBounds(150, 350, 200, 80);
@@ -81,8 +93,6 @@ public class UsuarioPerfil extends JFrame implements ActionListener{
         painel.add(email_usuario);
         painel.add(sexo);
         painel.add(sexo_usuario);
-        painel.add(senha);
-        painel.add(senha_usuario);
         painel.add(excluirPerfil);
         painel.add(editar);
 
@@ -94,8 +104,9 @@ public class UsuarioPerfil extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == excluirPerfil){
+            UserController.delete(Sessao.getId());
             JOptionPane.showMessageDialog(null, "Conta Excluida com Sucesso", "Conta Excluida", JOptionPane.INFORMATION_MESSAGE);
-            //PaginaInicial novaConta = new PaginaInicial();
+            new Login(-1);
             paginaPerfil.dispose();
         }
         else if (e.getSource() == editar){

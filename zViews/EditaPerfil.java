@@ -1,3 +1,9 @@
+package zViews;
+
+import BancoDados.DatabasePOO;
+import zController.Sessao;
+import zController.UserController;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -87,9 +93,19 @@ public class EditaPerfil extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == salvarInfo){
+            try {
+                System.out.println(nome_usuario.getText());
+                System.out.println(senha_usuario.getText());
+                System.out.println(Sessao.id);
+
+                UserController.update(nome_usuario.getText(), senha_usuario.getText(), Sessao.id);
+            } catch (Exception er) {
+                System.out.println(er);
+            }
             JOptionPane.showMessageDialog(null, "Conta Modificada com Sucesso", "Conta Alterada", JOptionPane.INFORMATION_MESSAGE);
-            //PaginaInicial novaConta = new PaginaInicial(); esta comentado pois não estou com o código completo nesse pc
+            new Produtos();
             paginaEdita.dispose();
+
         }
 
     }

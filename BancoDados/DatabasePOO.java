@@ -8,7 +8,7 @@ public class DatabasePOO {
     public static void createConnection() throws SQLException{
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/poo", "root", "root");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/poo", "root", "puc@1234");
             
         } catch (ClassNotFoundException c) {
             throw new RuntimeException(c);
@@ -18,14 +18,14 @@ public class DatabasePOO {
     }
 
     public static ResultSet querrySelect(String sql) throws SQLException {
-        Statement statement = connection.createStatement();
+        Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         ResultSet result = statement.executeQuery(sql);
         
         return result;
     }
 
     public static void querry(String sql) throws SQLException {
-        Statement statement = connection.createStatement();
+        Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         statement.executeUpdate(sql);
     }
     
