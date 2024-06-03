@@ -2,6 +2,8 @@ package zController;
 
 import BancoDados.DatabasePOO;
 import zModel.CarrinhoModel;
+import zModel.ItemPedido;
+import zModel.Produto;
 import zModel.UserModel;
 import zViews.Login;
 
@@ -13,6 +15,8 @@ public class aLoja {
 
     public static ArrayList<UserModel> users = new ArrayList<>();
     public static ArrayList<CarrinhoModel> carrinhos = new ArrayList<>();
+    public static ArrayList<ItemPedido> pedidos = new ArrayList<>();
+    public static ArrayList<Produto> produtos = new ArrayList<>();
 
 
     public static void main(String[] args){
@@ -39,6 +43,15 @@ public class aLoja {
             while (res.next()){
                 carrinhos.add(new CarrinhoModel(res.getInt("Id_Carrinho"), res.getInt("fk_Usuario_Id_Usuario")));
             }
+            res = DatabasePOO.querrySelect("SELECT * FROM item_pedido");
+            while (res.next()){
+                pedidos.add(new ItemPedido(res.getInt("Id_Pedido"), res.getInt("Quantidade"), res.getInt("fk_Carrinho_Compras_Id_Carrinho"), res.getInt("fk_Produto_Id_Produto")));
+            }
+            res = DatabasePOO.querrySelect("SELECT * FROM produto");
+            while (res.next()){
+                produtos.add( new Produto(res.getInt("Id_Produto"), res.getString("Nome"), res.getFloat("Valor")) );
+            }
+
 
         } catch (SQLException e) {
             System.out.println("erro Query");

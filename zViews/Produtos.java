@@ -1,9 +1,12 @@
 package zViews;
 
 import BancoDados.DatabasePOO;
+import zController.ItemPedidoController;
 import zController.Sessao;
 import zController.aLoja;
 import zModel.CarrinhoModel;
+import zModel.ItemPedido;
+import zModel.Produto;
 
 import javax.swing.*;
 import java.awt.*;
@@ -73,9 +76,9 @@ public class Produtos extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == pesquisar_button) {
-            String searchQuery = pesquisa.getText().trim();
-            if (!searchQuery.isEmpty()) {
-                performSearch(searchQuery);
+            String search = pesquisa.getText().trim();
+            if (!search.isEmpty()) {
+                performSearch(search);
             } else {
                 JOptionPane.showMessageDialog(null, "Por favor, insira um termo de pesquisa.", "Aviso", JOptionPane.WARNING_MESSAGE);
             }
@@ -97,26 +100,22 @@ public class Produtos extends JFrame implements ActionListener {
                             IdCart = ca.Id_Carrinho;
                         }
                     }
+
                     System.out.println(IdCart);
                     System.out.println(indexes[c]);
-                    boolean update = false;
-                    ResultSet res = DatabasePOO.querrySelect(String.format("SELECT * FROM item_pedido where fk_Carrinho_Compras_Id_Carrinho = %d and fk_Produto_Id_Produto = %d", IdCart, indexes[c]));
-                    while(res.next()){
-                        if (res.getInt("fk_Produto_Id_Produto") == indexes[c]){
-                            update = true;
+                    boolean create = true;
+                    for(ItemPedido pe: aLoja.pedidos){
+                        if (pe.fk_Produto_Id_Produto == indexes[c] && pe.fk_Carrinho_Compras_Id_Carrinho == IdCart) {
+                            ItemPedidoController.update(1, pe.IdPedido);
+
+                            create = false;
                         }
                     }
-
-                    if(update){
-                        DatabasePOO.querry(String.format("UPDATE item_pedido SET Quantidade = Quantidade+1 where fk_Carrinho_Compras_Id_Carrinho = %d and fk_Produto_Id_Produto = %d", IdCart, indexes[c]));
-                        System.out.println("Inserção realizada com Sucesso");
-                    }
-                    else{
-                        DatabasePOO.querry(String.format("INSERT INTO item_pedido(Quantidade, fk_Carrinho_Compras_Id_Carrinho, fk_Produto_Id_Produto) VALUES(1, '%d', '%d')", IdCart, indexes[c]));
-                        System.out.println("Inserção realizada com Sucesso");
+                    if(create){
+                        ItemPedidoController.create(-1, 1, IdCart, indexes[c]);
                     }
 
-                } catch (SQLException ex) {
+                } catch (Exception ex) {
                     System.out.println(ex);
                 }
             }
@@ -124,23 +123,16 @@ public class Produtos extends JFrame implements ActionListener {
         }
     }
 
-    private void performSearch(String query) {
+    private void performSearch(String shearch) {
         for (Component component : paginaProduto.getContentPane().getComponents()) {
             if (component instanceof JPanel) {
                 paginaProduto.remove(component);
             }
         }
 
-        ResultSet res = null;
-        try {
-            res = DatabasePOO.querrySelect("SELECT * FROM produto WHERE Nome LIKE '%" + query + "%'");
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-
         try {
             int i = 0;
-            while (res.next() && i < 10) {
+            for(Produto p: aLoja.produtos) {
                 adicionar[i] = new JButton("Add");
                 adicionar[i].setBounds(300, 30, 60, 20);
                 adicionar[i].addActionListener(this);
@@ -154,16 +146,16 @@ public class Produtos extends JFrame implements ActionListener {
                 JLabel preco = new JLabel("PREÇO");
                 preco.setBounds(230, 5, 100, 20);
 
-                produtos_nome[i] = new JLabel(res.getString("Nome"));
+                produtos_nome[i] = new JLabel(p.Nome);
                 produtos_nome[i].setBounds(20, 30, 100, 20);
 
                 produtos_descricao[i] = new JLabel("Umas folhas");
                 produtos_descricao[i].setBounds(110, 30, 300, 20);
 
-                produtos_preco[i] = new JLabel(String.valueOf(res.getFloat("Valor")));
+                produtos_preco[i] = new JLabel(String.valueOf(p.Valor));
                 produtos_preco[i].setBounds(230, 30, 100, 20);
 
-                indexes[i] = res.getInt("Id_Produto");
+                indexes[i] = p.IdProduto;
 
                 JPanel painel_produto = new JPanel();
                 painel_produto.setBounds(50, 100 + 110 * i, 400, 100);
@@ -181,7 +173,7 @@ public class Produtos extends JFrame implements ActionListener {
                 paginaProduto.add(painel_produto);
                 i++;
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             System.out.println(e);
         }
 
