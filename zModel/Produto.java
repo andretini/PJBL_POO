@@ -1,41 +1,60 @@
 package zModel;
 
-import BancoDados.DatabasePOO;
-import zController.Sessao;
 import zController.aLoja;
-
-import java.sql.SQLException;
 
 public class Produto {
     public static int incrementer = 0;
-    public int IdProduto;
-    public String Nome;
-    public float Valor;
+    private int IdProduto;
+    private String Nome;
+    private float Valor;
 
     public Produto(int IdProduto,String Nome, float Valor){
         if (IdProduto == -1){
             if(!aLoja.pedidos.isEmpty()){
-                if(incrementer < aLoja.produtos.get(aLoja.produtos.size() - 1).IdProduto){
-                    this.IdProduto = aLoja.pedidos.get(aLoja.pedidos.size() - 1).IdPedido+1;
-                    incrementer = this.IdProduto;
+                if(incrementer < aLoja.produtos.get(aLoja.produtos.size() - 1).getIdProduto()){
+                    this.setIdProduto(aLoja.pedidos.get(aLoja.pedidos.size() - 1).getIdPedido() +1);
+                    incrementer = this.getIdProduto();
                 }
                 else{
-                    this.IdProduto = incrementer + 1;
+                    this.setIdProduto(incrementer + 1);
                     incrementer ++;
                 }
 
             }
             else{
-                this.IdProduto = 1;
+                this.setIdProduto(1);
             }
         }
         else{
-            this.IdProduto = IdProduto;
+            this.setIdProduto(IdProduto);
         }
 
-        this.Nome = Nome;
-        this.Valor = Valor;
+        this.setNome(Nome);
+        this.setValor(Valor);
     }
 
 
+    public int getIdProduto() {
+        return IdProduto;
+    }
+
+    public void setIdProduto(int idProduto) {
+        IdProduto = idProduto;
+    }
+
+    public String getNome() {
+        return Nome;
+    }
+
+    public void setNome(String nome) {
+        Nome = nome;
+    }
+
+    public float getValor() {
+        return Valor;
+    }
+
+    public void setValor(float valor) {
+        Valor = valor;
+    }
 }

@@ -2,7 +2,6 @@ package zViews;
 
 import zController.Sessao;
 import zController.UserController;
-import BancoDados.DatabasePOO;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,8 +11,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
-import javax.swing.*;
-import java.awt.*;
 
 public class EditaPerfil extends JFrame implements ActionListener {
     private JFrame paginaEdita;

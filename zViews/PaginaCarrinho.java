@@ -57,7 +57,7 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
         for (ItemPedido pe: aLoja.pedidos){
             Produto produto = null;
             for(Produto p: aLoja.produtos){
-                if(p.IdProduto == pe.fk_Produto_Id_Produto){
+                if(p.getIdProduto() == pe.getFk_Produto_Id_Produto()){
                     produto = p;
                 }
             }
@@ -84,16 +84,16 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
                 JLabel quantidade = new JLabel("QTDE");
                 quantidade.setBounds(370, 10, 100, 20);
 
-                JLabel nomeProdutoCarrinho = new JLabel(String.valueOf(produto.Nome));
+                JLabel nomeProdutoCarrinho = new JLabel(String.valueOf(produto.getNome()));
                 nomeProdutoCarrinho.setBounds(15, 30, 100, 20);
 
-                JLabel descricaoProdutoCarrinho = new JLabel(String.valueOf(pe.fk_Produto_Id_Produto));
+                JLabel descricaoProdutoCarrinho = new JLabel(String.valueOf(pe.getFk_Produto_Id_Produto()));
                 descricaoProdutoCarrinho.setBounds(135, 30, 300, 20);
 
-                JLabel precoProdutoCarrinho = new JLabel("R$ " + String.valueOf(produto.Valor));
+                JLabel precoProdutoCarrinho = new JLabel("R$ " + String.valueOf(produto.getValor()));
                 precoProdutoCarrinho.setBounds(310, 30, 100, 20);
 
-                JTextField quantidadeProduto = new JTextField(String.valueOf(pe.Quantidade));
+                JTextField quantidadeProduto = new JTextField(String.valueOf(pe.getQuantidade()));
                 quantidadeProduto.setBounds(375, 30, 20, 20);
                 quantidadeProduto.setBackground(Color.GRAY);
                 quantidadeProduto.setBorder(null);
@@ -103,7 +103,7 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
                 removerProduto.addActionListener(this);
                 removerProduto.setBackground(Color.GRAY);
                 removerProduto.setBorder(null);
-                removerProduto.putClientProperty("produtoId", pe.IdPedido);
+                removerProduto.putClientProperty("produtoId", pe.getIdPedido());
 
                 itensCarrinho.add(nome);
                 itensCarrinho.add(descricao);
@@ -143,7 +143,7 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
                 try {
                     ArrayList<ItemPedido> pedido = new ArrayList<>();
                     for (ItemPedido pe: aLoja.pedidos){
-                        if (Integer.valueOf(pe.fk_Carrinho_Compras_Id_Carrinho) == (int)source.getClientProperty("carrinhoId")){
+                        if (Integer.valueOf(pe.getFk_Carrinho_Compras_Id_Carrinho()) == (int)source.getClientProperty("carrinhoId")){
 
                             pedido.add(pe);
                         }
@@ -165,7 +165,7 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
                 try {
                     ItemPedido pedido = null;
                     for (ItemPedido pe: aLoja.pedidos){
-                        if ( Objects.equals(pe.IdPedido, (Integer)source.getClientProperty("produtoId")) ){
+                        if ( Objects.equals(pe.getIdPedido(), (Integer)source.getClientProperty("produtoId")) ){
                             pedido = pe;
                         }
                     }

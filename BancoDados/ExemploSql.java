@@ -1,6 +1,5 @@
 package BancoDados;
 
-import BancoDados.DatabasePOO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 

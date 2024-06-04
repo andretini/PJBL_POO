@@ -102,8 +102,8 @@ public class Produtos extends JFrame implements ActionListener {
                     System.out.println(indexes[c]);
                     boolean create = true;
                     for(ItemPedido pe: aLoja.pedidos){
-                        if (pe.fk_Produto_Id_Produto == indexes[c] && pe.fk_Carrinho_Compras_Id_Carrinho == IdCart) {
-                            ItemPedidoController.update(1, pe.IdPedido);
+                        if (pe.getFk_Produto_Id_Produto() == indexes[c] && pe.getFk_Carrinho_Compras_Id_Carrinho() == IdCart) {
+                            ItemPedidoController.update(1, pe.getIdPedido());
 
                             create = false;
                         }
@@ -143,16 +143,16 @@ public class Produtos extends JFrame implements ActionListener {
                 JLabel preco = new JLabel("PREÇO");
                 preco.setBounds(230, 5, 100, 20);
 
-                produtos_nome[i] = new JLabel(p.Nome);
+                produtos_nome[i] = new JLabel(p.getNome());
                 produtos_nome[i].setBounds(20, 30, 100, 20);
 
                 produtos_descricao[i] = new JLabel("Umas folhas");
                 produtos_descricao[i].setBounds(110, 30, 300, 20);
 
-                produtos_preco[i] = new JLabel(String.valueOf(p.Valor));
+                produtos_preco[i] = new JLabel(String.valueOf(p.getValor()));
                 produtos_preco[i].setBounds(230, 30, 100, 20);
 
-                indexes[i] = p.IdProduto;
+                indexes[i] = p.getIdProduto();
 
                 JPanel painel_produto = new JPanel();
                 painel_produto.setBounds(50, 100 + 110 * i, 400, 100);
