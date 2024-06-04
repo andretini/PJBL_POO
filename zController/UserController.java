@@ -33,10 +33,12 @@ public class UserController {
         }
     }
 
-    public static void update(String name, String senha, int Id){
+    public static void update(String name, String senha, int Id, String email, String sexo){
         for(UserModel user: aLoja.getUsers()){
             if(Objects.equals(user.getId(), Id)){
                 user.setNome(name);
+                user.setEmail(email);
+                user.setSexo(sexo);
                 user.setSenha(senha);
                 user.Migrate(true);
                 break;

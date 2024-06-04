@@ -96,7 +96,7 @@ public class EditaPerfil extends JFrame implements ActionListener {
                 System.out.println(senha_usuario.getText());
                 System.out.println(Sessao.getId());
 
-                UserController.update(nome_usuario.getText(), senha_usuario.getText(), Sessao.getId());
+                UserController.update(nome_usuario.getText(), senha_usuario.getText(), Sessao.getId(), email_usuario.getText(), sexo_usuario.getText());
             } catch (Exception er) {
                 System.out.println(er);
             }
