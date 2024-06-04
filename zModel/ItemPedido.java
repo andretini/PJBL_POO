@@ -35,7 +35,6 @@ public class ItemPedido {
     public void Delete(){
         try {
             DatabasePOO.querry(String.format("DELETE FROM item_pedido WHERE Id_Pedido = %d;", getIdPedido()));
-            Sessao.encerrarSecao();
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }

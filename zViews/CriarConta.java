@@ -21,7 +21,7 @@ public class CriarConta extends JFrame implements ActionListener {
     public CriarConta() {
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500, 500);
+        frame.setSize(500, 600);
         frame.setLayout(null);
 
         JLabel titulo = new JLabel("Cadastro");
@@ -62,7 +62,7 @@ public class CriarConta extends JFrame implements ActionListener {
         info_senha.setBounds(130, 385, 300, 20);
 
         cadastro_button_02 = new JButton("Cadastrar");
-        cadastro_button_02.setBounds(125, 520, 250, 60);
+        cadastro_button_02.setBounds(125, 480, 250, 60);
         cadastro_button_02.setBackground(Color.LIGHT_GRAY);
         cadastro_button_02.addActionListener(this);
 

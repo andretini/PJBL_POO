@@ -36,7 +36,7 @@ public class Produto {
         this.setNome(Nome);
         this.setValor(Valor);
         this.setDescricao(Descricao);
-        this.Validade(Validade);
+        this.setValidade(Validade);
     
     }
 
@@ -65,19 +65,19 @@ public class Produto {
         Valor = valor;
     }
     
-        public float getDescricao() {
+    public String getDescricao() {
         return Descricao;
     }
 
-    public void setDescricao(float descricao) {
-        Descricao = decricao;
+    public void setDescricao(String descricao) {
+        Descricao = descricao;
     }
     
-    public float getValidade() {
+    public String getValidade() {
         return Validade;
     }
 
-    public void setValor(float validade) {
+    public void setValidade(String validade) {
         Validade = validade;
     }
 

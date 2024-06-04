@@ -31,6 +31,7 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
     }
 
     public PaginaCarrinho() {
+
         carrinhoPage = new JFrame();
         carrinhoPage.setSize(500, 500);
         carrinhoPage.setLayout(null);
@@ -46,6 +47,7 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
         carrinhoVazio.setVisible(false);
 
         IdCart = -1;
+
         for (CarrinhoModel ca : aLoja.carrinhos) {
             if (ca.getFkUsuarioIdUsuario() == Sessao.getId()) {
                 IdCart = ca.getIdCarrinho();
@@ -89,7 +91,7 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
                 JLabel nomeProdutoCarrinho = new JLabel(produto.getNome());
                 nomeProdutoCarrinho.setBounds(15, 30, 100, 20);
 
-                JLabel descricaoProdutoCarrinho = new JLabel(produto.getDescricao());
+                JLabel descricaoProdutoCarrinho = new JLabel(String.valueOf(produto.getDescricao()));
                 descricaoProdutoCarrinho.setBounds(135, 30, 300, 20);
 
                 JLabel precoProdutoCarrinho = new JLabel("R$ " + String.valueOf(produto.getValor()));
@@ -100,7 +102,7 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
                 quantidadeProduto.setBackground(Color.GRAY);
                 quantidadeProduto.setBorder(null);
 
-                JButton removerProduto = new JButton("X")o
+                JButton removerProduto = new JButton("X");
                 removerProduto.setBounds(420, 30, 50, 20);
                 removerProduto.addActionListener(this);
                 removerProduto.setBackground(Color.GRAY);
@@ -124,6 +126,7 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
 
             }
             c ++;
+
         }
 
         comprar = new JButton("COMPRAR");
@@ -146,6 +149,8 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
+
         if (e.getSource() instanceof JButton) {
             JButton source = (JButton) e.getSource();
             if (source.getText().equals("COMPRAR")) {
@@ -157,16 +162,20 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
                             pedido.add(pe);
                         }
                     }
+                    System.out.println(Sessao.getId());
                     if(!pedido.isEmpty()){
                         for(ItemPedido pe: pedido){
                             ItemPedidoController.delete(pe);
                         }
                     }
+
                     new Produtos();
                     carrinhoPage.dispose();
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
+
+                System.out.println(Sessao.getId());
                 // Implementar lógica de compra aqui
                 JOptionPane.showMessageDialog(null, "COMPRA REALIZADA COM SUCESSO", "COMPRA BEM SUCEDIDA", JOptionPane.PLAIN_MESSAGE);
             } else if (source.getText().equals("X")) {

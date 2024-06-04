@@ -83,6 +83,7 @@ public class Produtos extends JFrame implements ActionListener {
             UsuarioPerfil pagina_perfil = new UsuarioPerfil();
             paginaProduto.dispose();
         } else if (e.getSource() == carrinhoPagina) {
+
             PaginaCarrinho carrinho = new PaginaCarrinho();
             paginaProduto.dispose();
         }
@@ -143,10 +144,10 @@ public class Produtos extends JFrame implements ActionListener {
                 JLabel preco = new JLabel("PREÇO");
                 preco.setBounds(230, 5, 100, 20);
 
-                produtos_nome[i] = new JLabel(p.getNome());
+                produtos_nome[i] = new JLabel(String.valueOf(p.getNome()));
                 produtos_nome[i].setBounds(20, 30, 100, 20);
 
-                produtos_descricao[i] = new JLabel(p.Descricao);
+                produtos_descricao[i] = new JLabel(String.valueOf(p.getDescricao()));
                 produtos_descricao[i].setBounds(110, 30, 300, 20);
 
                 produtos_preco[i] = new JLabel(String.valueOf(p.getValor()));
