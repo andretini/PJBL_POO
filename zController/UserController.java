@@ -28,21 +28,9 @@ public class UserController {
                     }
                 }
             }
-            /*
-            ResultSet res = DatabasePOO.querrySelect(String.format("SELECT * FROM USUARIO " +
-                    "where nome = '%s'", name));
-            while (res.next()){
-                if (Objects.equals(res.getString("Senha"), senha)) {
-                    System.out.println("Logado");
-                    Sessao.setId(res.findColumn("Id_Usuario"));
-                    new Produtos();
-                    break;
-                }
-            }*/
         } catch (Exception e) {
             System.out.println(e);
         }
-
     }
 
     public static void update(String name, String senha, int Id){

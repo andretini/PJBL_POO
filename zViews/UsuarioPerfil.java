@@ -27,6 +27,7 @@ public class UsuarioPerfil extends JFrame implements ActionListener{
     JLabel sexo_usuario;
     JLabel senha_usuario;
     JPanel painel;
+    JButton voltarMenu;
 
     public UsuarioPerfil(){
         paginaPerfil = new JFrame();
@@ -83,8 +84,13 @@ public class UsuarioPerfil extends JFrame implements ActionListener{
 
         //botao para ir na pagina de edicao
         editar = new JButton("EDITAR");
-        editar.setBounds(350, 25, 80, 20);
+        editar.setBounds(380, 25, 80, 20);
         editar.addActionListener(this);
+
+        //botao para voltar para o menu
+        voltarMenu = new JButton("Voltar");
+        voltarMenu.addActionListener(this);
+        voltarMenu.setBounds(10, 25, 100, 20);
 
         painel.add(pagina_nome);
         painel.add(nome);
@@ -95,7 +101,7 @@ public class UsuarioPerfil extends JFrame implements ActionListener{
         painel.add(sexo_usuario);
         painel.add(excluirPerfil);
         painel.add(editar);
-
+        painel.add(voltarMenu);
         paginaPerfil.add(painel);
         paginaPerfil.setVisible(true);
     }
@@ -111,6 +117,10 @@ public class UsuarioPerfil extends JFrame implements ActionListener{
         }
         else if (e.getSource() == editar){
             EditaPerfil editar = new EditaPerfil();
+            paginaPerfil.dispose();
+        }
+        else if(e.getSource() == voltarMenu){
+            new Produtos();
             paginaPerfil.dispose();
         }
 

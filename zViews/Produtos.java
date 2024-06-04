@@ -143,16 +143,16 @@ public class Produtos extends JFrame implements ActionListener {
                 JLabel preco = new JLabel("PREÇO");
                 preco.setBounds(230, 5, 100, 20);
 
-                produtos_nome[i] = new JLabel(p.Nome);
+                produtos_nome[i] = new JLabel(p.getNome());
                 produtos_nome[i].setBounds(20, 30, 100, 20);
 
                 produtos_descricao[i] = new JLabel(p.Descricao);
                 produtos_descricao[i].setBounds(110, 30, 300, 20);
 
-                produtos_preco[i] = new JLabel(String.valueOf(p.Valor));
+                produtos_preco[i] = new JLabel(String.valueOf(p.getValor()));
                 produtos_preco[i].setBounds(230, 30, 100, 20);
 
-                indexes[i] = p.IdProduto;
+                indexes[i] = p.getIdProduto();
 
                 JPanel painel_produto = new JPanel();
                 painel_produto.setBounds(50, 100 + 110 * i, 400, 100);
@@ -167,8 +167,11 @@ public class Produtos extends JFrame implements ActionListener {
                 painel_produto.add(produtos_descricao[i]);
                 painel_produto.add(produtos_preco[i]);
 
+                painel_produto.setVisible(true);
                 paginaProduto.add(painel_produto);
+                
                 i++;
+                
             }
         } catch (Exception e) {
             System.out.println(e);

@@ -19,6 +19,7 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
     JPanel carrinhoPanel;
     ArrayList<JPanel> carrinhosPanel = new ArrayList<>();
     JLabel carrinhoVazio;
+    JButton menuVoltar;
     private int IdCart = -1; 
 
     public int getIdCart() {
@@ -57,7 +58,8 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
         for (ItemPedido pe: aLoja.pedidos){
             Produto produto = null;
             for(Produto p: aLoja.produtos){
-                if(p.IdProduto == pe.getFk_Produto_Id_Produto()){
+
+                if(p.getIdProduto() == pe.getFk_Produto_Id_Produto()){
                     produto = p;
                 }
             }
@@ -84,13 +86,13 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
                 JLabel quantidade = new JLabel("QTDE");
                 quantidade.setBounds(370, 10, 100, 20);
 
-                JLabel nomeProdutoCarrinho = new JLabel(String.valueOf(produto.Nome));
+                JLabel nomeProdutoCarrinho = new JLabel(produto.getNome());
                 nomeProdutoCarrinho.setBounds(15, 30, 100, 20);
 
-                JLabel descricaoProdutoCarrinho = new JLabel(String.valueOf(pe.getFk_Produto_Id_Produto()));
+                JLabel descricaoProdutoCarrinho = new JLabel(produto.getDescricao());
                 descricaoProdutoCarrinho.setBounds(135, 30, 300, 20);
 
-                JLabel precoProdutoCarrinho = new JLabel("R$ " + String.valueOf(produto.Valor));
+                JLabel precoProdutoCarrinho = new JLabel("R$ " + String.valueOf(produto.getValor()));
                 precoProdutoCarrinho.setBounds(310, 30, 100, 20);
 
                 JTextField quantidadeProduto = new JTextField(String.valueOf(pe.getQuantidade()));
@@ -98,7 +100,7 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
                 quantidadeProduto.setBackground(Color.GRAY);
                 quantidadeProduto.setBorder(null);
 
-                JButton removerProduto = new JButton("X");
+                JButton removerProduto = new JButton("X")o
                 removerProduto.setBounds(420, 30, 50, 20);
                 removerProduto.addActionListener(this);
                 removerProduto.setBackground(Color.GRAY);
@@ -129,6 +131,13 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
         comprar.putClientProperty("carrinhoId", getIdCart()); // Usando o getter para obter o IdCart
         comprar.addActionListener(this);
 
+        //botao para voltar para o menu
+        menuVoltar = new JButton("Voltar");
+        menuVoltar.addActionListener(this);
+        menuVoltar.setBounds(10, 25, 100, 20);
+        
+
+        carrinhoPage.add(menuVoltar);
         carrinhoPage.add(comprar);
         carrinhoPage.add(titulo);
         carrinhoPage.add(carrinhoVazio);
@@ -180,5 +189,12 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Produto removido do carrinho", "Produto removido", JOptionPane.PLAIN_MESSAGE);
             }
         }
+        JButton source = (JButton) e.getSource();
+        if(source.getText() == "Voltar"){
+            
+            new Produtos();
+            carrinhoPage.dispose();
+            
+        }   
     }
 }

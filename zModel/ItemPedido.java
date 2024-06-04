@@ -7,10 +7,13 @@ import zController.aLoja;
 import java.sql.SQLException;
 
 public class ItemPedido {
+
+    
     private int IdPedido;
     private int Quantidade;
-    public int fk_Carrinho_Compras_Id_Carrinho;
-    public int fk_Produto_Id_Produto;
+    private int fk_Carrinho_Compras_Id_Carrinho;
+    private int fk_Produto_Id_Produto;
+
 
     public ItemPedido(int IdPedido,int quantidade, int IdCarrinho, int IdProduto){
         if (IdPedido == -1){

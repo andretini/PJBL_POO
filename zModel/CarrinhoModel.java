@@ -23,8 +23,6 @@ public class CarrinhoModel {
         else{
             this.Id_Carrinho = cartId;
         }
-
-
         this.fk_Usuario_Id_Usuario = userId;
     }
 
@@ -66,18 +64,11 @@ public class CarrinhoModel {
                 System.out.println(fk_Usuario_Id_Usuario);
                 DatabasePOO.querry(String.format("INSERT INTO carrinho_compras(fk_Usuario_Id_Usuario) VALUES('%d')", fk_Usuario_Id_Usuario));
                 System.out.println("Inserção realizada com Sucesso" + fk_Usuario_Id_Usuario);
-            } catch (Exception ex) {
+            } 
+            catch (Exception ex) {
                 System.out.println("ERRO INSERIR" + ex);
             }
-        }/*
-        else{
-            try {
-                DatabasePOO.querry(String.format("UPDATE usuario SET Nome = '%s', Senha = '%s' WHERE Id_Usuario = %d", nome, senha, Id));
-                System.out.println("Atualização realizada com Sucesso");
-            } catch (Exception ex) {
-                System.out.println("ERRO ATUALIZAR");
-            }
-       */
+        }
     }
 
 }
