@@ -2,6 +2,8 @@ package zController;
 
 import zModel.UserModel;
 
+
+
 public class Sessao {
     private static boolean usuarioLogado = false;
     private static int id;

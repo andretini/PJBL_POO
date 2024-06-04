@@ -57,7 +57,7 @@ public class UserModel {
 
     public void delete() {
         try {
-            DatabasePOO.querry(String.format("DELETE FROM USUARIO WHERE Id_Usuario = %d;", id));
+            DatabasePOO.querry(String.format("DELETE FROM USUARIO WHERE Id_Usuario = %d;", getId()));
             Sessao.encerrarSecao();
         } catch (SQLException ex) {
             throw new RuntimeException(ex);

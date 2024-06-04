@@ -3,7 +3,6 @@ package zModel;
 import BancoDados.DatabasePOO;
 import zController.Sessao;
 import zController.aLoja;
-import zController.UserController;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -55,7 +54,7 @@ public class CarrinhoModel {
 
     public void delete() {
         try {
-            DatabasePOO.querry(String.format("DELETE FROM carrinho_compras WHERE Id_Carrinho = %d;", idCarrinho));
+            DatabasePOO.querry(String.format("DELETE FROM carrinho_compras WHERE Id_Carrinho = %d;", getIdCarrinho()));
             Sessao.encerrarSecao();
         } catch (SQLException ex) {
             throw new RuntimeException(ex);

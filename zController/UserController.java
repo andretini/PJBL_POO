@@ -1,14 +1,8 @@
 package zController;
-import BancoDados.DatabasePOO;
-import com.mysql.cj.Session;
+
 import zModel.CarrinhoModel;
 import zModel.UserModel;
-import zController.aLoja;
 import zViews.Produtos;
-
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Objects;
 
 public class UserController {
@@ -16,7 +10,7 @@ public class UserController {
         UserModel user = new UserModel(name, senha, -1);
         aLoja.users.add(user);
         user.Migrate(false);
-        CarrinhoController.create(user.Id);
+        CarrinhoController.create(user.getId());
         System.out.println("Logado");
         Sessao.setId(1);
         new Produtos();
@@ -25,11 +19,13 @@ public class UserController {
 
         try {
             for(UserModel user: aLoja.users){
-                if(Objects.equals(user.getNome(), name) && Objects.equals(user.getSenha(), senha)){
-                    System.out.println("Logado");
-                    Sessao.setId(user.getId());
-                    new Produtos();
-                    break;
+                if(user != null){
+                    if(Objects.equals(user.getNome(), name) && Objects.equals(user.getSenha(), senha)){
+                        System.out.println("Logado");
+                        Sessao.setId(user.getId());
+                        new Produtos();
+                        break;
+                    }
                 }
             }
             /*
@@ -63,14 +59,14 @@ public class UserController {
         UserModel us = null;
         CarrinhoModel ca = null;
         for (UserModel user : aLoja.getUsers()) {
-            if (Objects.equals(user.getId(), id)) {
+            if (Objects.equals(user.getId(), Id)) {
                 for (CarrinhoModel cart : aLoja.getCarrinhos()) {
                     if (cart.getFkUsuarioIdUsuario() == user.getId()) {
-                        cart.Delete();
+                        cart.delete();
                         ca = cart;
                     }
                 }
-                user.Delete();
+                user.delete();
                 us = user;
             }
         }
