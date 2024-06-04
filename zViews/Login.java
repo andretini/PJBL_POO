@@ -86,7 +86,8 @@ public class Login extends JFrame implements ActionListener {
         if (e.getSource() == cadastrar_button) {
             frame.dispose();
             new CriarConta();
-        } else if (e.getSource() == entrar_button) {
+        } 
+        else if (e.getSource() == entrar_button) {
             try {
                 UserController.login(name_field.getText(), password_field.getText());
                 frame.dispose();

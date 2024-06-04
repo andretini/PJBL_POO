@@ -3,15 +3,13 @@ package zModel;
 import BancoDados.DatabasePOO;
 import zController.Sessao;
 import zController.aLoja;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class CarrinhoModel {
-    public int Id_Carrinho;
-    public int fk_Usuario_Id_Usuario;
-
-    public ArrayList<ItemPedido>  itens;
+    private int Id_Carrinho;
+    private int fk_Usuario_Id_Usuario;
+    private ArrayList<ItemPedido> itens;
 
     public CarrinhoModel(int cartId,int userId){
         if (cartId == -1){
@@ -29,9 +27,34 @@ public class CarrinhoModel {
 
         this.fk_Usuario_Id_Usuario = userId;
     }
-    public void Delete(){
+
+    public int getIdCarrinho() {
+        return Id_Carrinho;
+    }
+
+    public void setIdCarrinho(int idCarrinho) {
+        this.Id_Carrinho = idCarrinho;
+    }
+
+    public int getFkUsuarioIdUsuario() {
+        return fk_Usuario_Id_Usuario;
+    }
+
+    public void setFkUsuarioIdUsuario(int fkUsuarioIdUsuario) {
+        this.fk_Usuario_Id_Usuario = fkUsuarioIdUsuario;
+    }
+
+    public ArrayList<ItemPedido> getItens() {
+        return itens;
+    }
+
+    public void setItens(ArrayList<ItemPedido> itens) {
+        this.itens = itens;
+    }
+
+    public void delete() {
         try {
-            DatabasePOO.querry(String.format("DELETE FROM carrinho_compras WHERE Id_Carrinho = %d;", Id_Carrinho));
+            DatabasePOO.querry(String.format("DELETE FROM carrinho_compras WHERE Id_Carrinho = %d;", getIdCarrinho()));
             Sessao.encerrarSecao();
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
@@ -57,4 +80,4 @@ public class CarrinhoModel {
        */
     }
 
-    }
+}
