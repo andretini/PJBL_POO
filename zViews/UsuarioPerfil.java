@@ -65,14 +65,14 @@ public class UsuarioPerfil extends JFrame implements ActionListener{
         email.setBounds(50, 150, 300, 50);
         email.setFont(new Font(null, Font.BOLD, 20));
 
-        email_usuario = new JLabel("email_Q");
+        email_usuario = new JLabel(user.getEmail());
         email_usuario.setBounds(125, 150, 300, 50);
         email_usuario.setFont(new Font(null, Font.BOLD, 20));
 
         sexo.setBounds(50, 200, 300, 50);
         sexo.setFont(new Font(null, Font.BOLD, 20));
 
-        sexo_usuario = new JLabel();
+        sexo_usuario = new JLabel(user.getSexo());
         sexo_usuario.setBounds(125, 200, 300, 50);
         sexo_usuario.setFont(new Font(null, Font.BOLD, 20));
 

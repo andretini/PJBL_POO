@@ -14,8 +14,8 @@ public class ItemPedidoController {
 
     public static void update(int Quantidade, int Id){
         for(ItemPedido pedido: aLoja.pedidos){
-            if(Objects.equals(pedido.IdPedido, Id)){
-                pedido.Quantidade = Quantidade;
+            if(Objects.equals(pedido.getIdPedido(), Id)){
+                pedido.setQuantidade(Quantidade);
                 pedido.Migrate(true);
                 break;
             }
@@ -25,7 +25,7 @@ public class ItemPedidoController {
     public static void delete(int Id){
         ItemPedido pe = null;
         for(ItemPedido pedido: aLoja.pedidos){
-            if(Objects.equals(pedido.IdPedido, Id)){
+            if(Objects.equals(pedido.getIdPedido(), Id)){
 
                 pedido.Delete();
                 pe = pedido;

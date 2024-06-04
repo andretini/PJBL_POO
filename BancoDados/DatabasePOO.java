@@ -8,7 +8,7 @@ public class DatabasePOO {
     public static void createConnection() throws SQLException{
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/poo", "root", "2606Bst*");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/poo", "root", "root");
             
         } catch (ClassNotFoundException c) {
             throw new RuntimeException(c);
