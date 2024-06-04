@@ -167,8 +167,11 @@ public class Produtos extends JFrame implements ActionListener {
                 painel_produto.add(produtos_descricao[i]);
                 painel_produto.add(produtos_preco[i]);
 
+                painel_produto.setVisible(true);
                 paginaProduto.add(painel_produto);
+                
                 i++;
+                
             }
         } catch (Exception e) {
             System.out.println(e);

@@ -19,6 +19,7 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
     JPanel carrinhoPanel;
     ArrayList<JPanel> carrinhosPanel = new ArrayList<>();
     JLabel carrinhoVazio;
+    JButton menuVoltar;
     private int IdCart = -1; 
 
     public int getIdCart() {
@@ -129,6 +130,13 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
         comprar.putClientProperty("carrinhoId", getIdCart()); // Usando o getter para obter o IdCart
         comprar.addActionListener(this);
 
+        //botao para voltar para o menu
+        menuVoltar = new JButton("Voltar");
+        menuVoltar.addActionListener(this);
+        menuVoltar.setBounds(10, 25, 100, 20);
+        
+
+        carrinhoPage.add(menuVoltar);
         carrinhoPage.add(comprar);
         carrinhoPage.add(titulo);
         carrinhoPage.add(carrinhoVazio);
@@ -180,5 +188,12 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Produto removido do carrinho", "Produto removido", JOptionPane.PLAIN_MESSAGE);
             }
         }
+        JButton source = (JButton) e.getSource();
+        if(source.getText() == "Voltar"){
+            
+            new Produtos();
+            carrinhoPage.dispose();
+            
+        }   
     }
 }
