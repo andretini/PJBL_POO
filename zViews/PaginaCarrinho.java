@@ -58,6 +58,7 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
         for (ItemPedido pe: aLoja.pedidos){
             Produto produto = null;
             for(Produto p: aLoja.produtos){
+
                 if(p.getIdProduto() == pe.getFk_Produto_Id_Produto()){
                     produto = p;
                 }
@@ -85,10 +86,10 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
                 JLabel quantidade = new JLabel("QTDE");
                 quantidade.setBounds(370, 10, 100, 20);
 
-                JLabel nomeProdutoCarrinho = new JLabel(String.valueOf(produto.getNome()));
+                JLabel nomeProdutoCarrinho = new JLabel(produto.getNome());
                 nomeProdutoCarrinho.setBounds(15, 30, 100, 20);
 
-                JLabel descricaoProdutoCarrinho = new JLabel(String.valueOf(pe.getFk_Produto_Id_Produto()));
+                JLabel descricaoProdutoCarrinho = new JLabel(produto.getDescricao());
                 descricaoProdutoCarrinho.setBounds(135, 30, 300, 20);
 
                 JLabel precoProdutoCarrinho = new JLabel("R$ " + String.valueOf(produto.getValor()));
@@ -99,7 +100,7 @@ public class PaginaCarrinho extends JFrame implements ActionListener {
                 quantidadeProduto.setBackground(Color.GRAY);
                 quantidadeProduto.setBorder(null);
 
-                JButton removerProduto = new JButton("X");
+                JButton removerProduto = new JButton("X")o
                 removerProduto.setBounds(420, 30, 50, 20);
                 removerProduto.addActionListener(this);
                 removerProduto.setBackground(Color.GRAY);

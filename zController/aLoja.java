@@ -52,7 +52,7 @@ public class aLoja {
         try {
             ResultSet res = DatabasePOO.querrySelect("SELECT * FROM USUARIO");
             while (res.next()){
-                users.add(new UserModel(res.getString("Nome"), res.getString("Senha"), res.getInt("Id_Usuario")));
+                users.add(new UserModel(res.getString("Nome"), res.getString("Senha"), res.getInt("Id_Usuario"), res.getString("Email"), res.getString("Sexo")));
             }
             res = DatabasePOO.querrySelect("SELECT * FROM carrinho_compras");
             while (res.next()){
@@ -64,7 +64,7 @@ public class aLoja {
             }
             res = DatabasePOO.querrySelect("SELECT * FROM produto");
             while (res.next()){
-                produtos.add( new Produto(res.getInt("Id_Produto"), res.getString("Nome"), res.getFloat("Valor")) );
+                produtos.add( new Produto(res.getInt("Id_Produto"), res.getString("Nome"), res.getFloat("Valor"), res.getString("Descricao"), res.getString("Validade")) );
             }
 
 

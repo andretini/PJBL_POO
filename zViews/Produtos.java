@@ -146,7 +146,7 @@ public class Produtos extends JFrame implements ActionListener {
                 produtos_nome[i] = new JLabel(p.getNome());
                 produtos_nome[i].setBounds(20, 30, 100, 20);
 
-                produtos_descricao[i] = new JLabel("Umas folhas");
+                produtos_descricao[i] = new JLabel(p.Descricao);
                 produtos_descricao[i].setBounds(110, 30, 300, 20);
 
                 produtos_preco[i] = new JLabel(String.valueOf(p.getValor()));

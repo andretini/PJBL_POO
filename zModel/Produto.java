@@ -4,11 +4,15 @@ import zController.aLoja;
 
 public class Produto {
     public static int incrementer = 0;
+
     private int IdProduto;
     private String Nome;
+    private String Descricao;
+    private String Validade;
     private float Valor;
 
-    public Produto(int IdProduto,String Nome, float Valor){
+
+    public Produto(int IdProduto, String Nome, float Valor, String Descricao, String Validade){
         if (IdProduto == -1){
             if(!aLoja.pedidos.isEmpty()){
                 if(incrementer < aLoja.produtos.get(aLoja.produtos.size() - 1).getIdProduto()){
@@ -31,6 +35,9 @@ public class Produto {
 
         this.setNome(Nome);
         this.setValor(Valor);
+        this.setDescricao(Descricao);
+        this.Validade(Validade);
+    
     }
 
 
@@ -57,4 +64,21 @@ public class Produto {
     public void setValor(float valor) {
         Valor = valor;
     }
+    
+        public float getDescricao() {
+        return Descricao;
+    }
+
+    public void setDescricao(float descricao) {
+        Descricao = decricao;
+    }
+    
+    public float getValidade() {
+        return Validade;
+    }
+
+    public void setValor(float validade) {
+        Validade = validade;
+    }
+
 }

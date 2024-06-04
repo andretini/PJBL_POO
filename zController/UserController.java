@@ -6,13 +6,13 @@ import zViews.Produtos;
 import java.util.Objects;
 
 public class UserController {
-    public static void create(String name, String senha){
-        UserModel user = new UserModel(name, senha, -1);
+    public static void create(String name, String senha, String email, String sexo){
+        UserModel user = new UserModel(name, senha, -1, email, sexo);
         aLoja.users.add(user);
         user.Migrate(false);
         CarrinhoController.create(user.getId());
         System.out.println("Logado");
-        Sessao.setId(1);
+        Sessao.setId(user.getId());
         new Produtos();
     }
     public static void login(String name, String senha){
