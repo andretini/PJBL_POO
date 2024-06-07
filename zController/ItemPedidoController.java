@@ -1,5 +1,6 @@
 package zController;
 
+import zModel.CarrinhoModel;
 import zModel.ItemPedido;
 
 import java.util.Objects;
@@ -8,7 +9,14 @@ public class ItemPedidoController {
     public static void create(int IdPedido,int quantidade, int IdCarrinho, int IdProduto){
         ItemPedido pedido = new ItemPedido(IdPedido, quantidade, IdCarrinho,IdProduto);
         aLoja.pedidos.add(pedido);
+
         pedido.Migrate(false);
+        
+        for(CarrinhoModel ca: aLoja.carrinhos){
+            if(ca.getIdCarrinho() == IdCarrinho){
+                ca.setItens(pedido);
+            }
+        }
     }
 
 

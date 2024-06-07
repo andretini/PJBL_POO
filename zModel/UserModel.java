@@ -5,7 +5,7 @@ import zController.Sessao;
 import zController.aLoja;
 import java.sql.SQLException;
 
-public class UserModel {
+public class UserModel extends GenerericModel{
     private int Id;
     private String nome;
     private String senha;
@@ -54,10 +54,11 @@ public class UserModel {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-    
-    
 
-    public void delete() {
+
+
+    @Override
+    public void Delete() {
         try {
             DatabasePOO.querry(String.format("DELETE FROM USUARIO WHERE Id_Usuario = %d;", getId()));
             Sessao.encerrarSecao();
@@ -65,6 +66,7 @@ public class UserModel {
             throw new RuntimeException(ex);
         }
     }
+    @Override
     public void Migrate(boolean update){
         if(!update){
             try {

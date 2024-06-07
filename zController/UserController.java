@@ -52,11 +52,11 @@ public class UserController {
             if (Objects.equals(user.getId(), Id)) {
                 for (CarrinhoModel cart : aLoja.getCarrinhos()) {
                     if (cart.getFkUsuarioIdUsuario() == user.getId()) {
-                        cart.delete();
+                        cart.Delete();
                         ca = cart;
                     }
                 }
-                user.delete();
+                user.Delete();
                 us = user;
             }
         }

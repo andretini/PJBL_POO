@@ -6,12 +6,14 @@ import zController.aLoja;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class CarrinhoModel {
+public class CarrinhoModel extends GenerericModel{
     private int Id_Carrinho;
     private int fk_Usuario_Id_Usuario;
     private ArrayList<ItemPedido> itens;
 
     public CarrinhoModel(int cartId,int userId){
+        itens = new ArrayList<>();
+
         if (cartId == -1){
             if(!aLoja.carrinhos.isEmpty()){
                 this.Id_Carrinho = aLoja.carrinhos.get(aLoja.carrinhos.size() - 1).Id_Carrinho+1;
@@ -24,6 +26,7 @@ public class CarrinhoModel {
             this.Id_Carrinho = cartId;
         }
         this.fk_Usuario_Id_Usuario = userId;
+        System.out.println(this.Id_Carrinho);
     }
 
     public int getIdCarrinho() {
@@ -46,11 +49,12 @@ public class CarrinhoModel {
         return itens;
     }
 
-    public void setItens(ArrayList<ItemPedido> itens) {
-        this.itens = itens;
+    public void setItens(ItemPedido pe) {
+        this.itens.add(pe);
     }
 
-    public void delete() {
+    @Override
+    public void Delete() {
         try {
             DatabasePOO.querry(String.format("DELETE FROM carrinho_compras WHERE Id_Carrinho = %d;", getIdCarrinho()));
             Sessao.encerrarSecao();
@@ -58,10 +62,10 @@ public class CarrinhoModel {
             throw new RuntimeException(ex);
         }
     }
+    @Override
     public void Migrate(boolean update){
         if(!update){
             try {
-                System.out.println(fk_Usuario_Id_Usuario);
                 DatabasePOO.querry(String.format("INSERT INTO carrinho_compras(fk_Usuario_Id_Usuario) VALUES('%d')", fk_Usuario_Id_Usuario));
                 System.out.println("Inserção realizada com Sucesso" + fk_Usuario_Id_Usuario);
             } 

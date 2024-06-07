@@ -2,7 +2,7 @@ package zModel;
 
 import zController.aLoja;
 
-public class Produto {
+public class Produto extends ProdutoAbstrato {
     public static int incrementer = 0;
 
     private int IdProduto;
@@ -40,43 +40,52 @@ public class Produto {
     
     }
 
-
+    @Override
     public int getIdProduto() {
         return IdProduto;
     }
 
+    @Override
     public void setIdProduto(int idProduto) {
         IdProduto = idProduto;
     }
 
+    @Override
     public String getNome() {
         return Nome;
     }
 
+    @Override
     public void setNome(String nome) {
         Nome = nome;
     }
 
+    @Override
     public float getValor() {
         return Valor;
     }
 
+    @Override
     public void setValor(float valor) {
         Valor = valor;
     }
-    
+
+    @Override
     public String getDescricao() {
         return Descricao;
     }
 
+    @Override
     public void setDescricao(String descricao) {
         Descricao = descricao;
     }
-    
+
+    @Override
     public String getValidade() {
         return Validade;
     }
 
+    @Override
     public void setValidade(String validade) {
         Validade = validade;
     }

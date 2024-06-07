@@ -6,7 +6,7 @@ import zController.aLoja;
 
 import java.sql.SQLException;
 
-public class ItemPedido {
+public class ItemPedido extends GenerericModel{
 
     
     private int IdPedido;
@@ -32,6 +32,7 @@ public class ItemPedido {
         this.setFk_Carrinho_Compras_Id_Carrinho(IdCarrinho);
         this.setFk_Produto_Id_Produto(IdProduto);
     }
+    @Override
     public void Delete(){
         try {
             DatabasePOO.querry(String.format("DELETE FROM item_pedido WHERE Id_Pedido = %d;", getIdPedido()));
@@ -39,6 +40,7 @@ public class ItemPedido {
             throw new RuntimeException(ex);
         }
     }
+    @Override
     public void Migrate(boolean update) {
         if (!update) {
             try {

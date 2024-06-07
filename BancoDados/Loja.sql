@@ -7,12 +7,16 @@ USE POO;
 CREATE TABLE Usuario (
     Id_Usuario INT PRIMARY KEY auto_increment,
     Nome VARCHAR(100),
+    Email VARCHAR(100),
+    Sexo VARCHAR(10),
     Senha VARCHAR(100)
 );
 
 CREATE TABLE Produto (
     Id_Produto INT PRIMARY KEY auto_increment,
     Nome VARCHAR(20),
+    Descricao VARCHAR(200),
+	Validade VARCHAR(30),
     Valor FLOAT
 );
 
